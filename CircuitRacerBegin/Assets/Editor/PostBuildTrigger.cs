@@ -24,11 +24,11 @@ namespace Assets.Editor
             {"libz.dylib","693BA8B11AB4D1FE0014E6E0","693BA8A91AB4D1FE0014E6E0"},
             {"Security.framework","693BA8B21AB4D1FE0014E6E0","693BA8AA1AB4D1FE0014E6E0"},
             // google frameworks:
-            {"GoogleOpenSource.framework","693BA8BA1AB4D36B0014E6E0","693BA8B71AB4D36B0014E6E0"},
-            {"GooglePlayGames.bundle","693BA8B51AB4D3390014E6E0","693BA8B31AB4D3390014E6E0"},
-            {"GooglePlus.bundle",   "693BA8BB1AB4D36B0014E6E0","693BA8B81AB4D36B0014E6E0"},
-            {"GooglePlus.framework","693BA8BC1AB4D36B0014E6E0","693BA8B91AB4D36B0014E6E0"},
-            {"gpg.framework","693BA8B61AB4D3390014E6E0","693BA8B41AB4D3390014E6E0"},
+//            {"GoogleOpenSource.framework","693BA8BA1AB4D36B0014E6E0","693BA8B71AB4D36B0014E6E0"},
+//            {"GooglePlayGames.bundle","693BA8B51AB4D3390014E6E0","693BA8B31AB4D3390014E6E0"},
+//            {"GooglePlus.bundle",   "693BA8BB1AB4D36B0014E6E0","693BA8B81AB4D36B0014E6E0"},
+//            {"GooglePlus.framework","693BA8BC1AB4D36B0014E6E0","693BA8B91AB4D36B0014E6E0"},
+//            {"gpg.framework","693BA8B61AB4D3390014E6E0","693BA8B41AB4D3390014E6E0"},
         };
 
         public struct framework
