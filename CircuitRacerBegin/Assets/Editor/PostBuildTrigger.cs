@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using Assets;
+
 
 namespace Assets.Editor
 {
@@ -20,6 +23,12 @@ namespace Assets.Editor
             {"libc++.dylib","693BA8B01AB4D1FE0014E6E0","693BA8A81AB4D1FE0014E6E0"},
             {"libz.dylib","693BA8B11AB4D1FE0014E6E0","693BA8A91AB4D1FE0014E6E0"},
             {"Security.framework","693BA8B21AB4D1FE0014E6E0","693BA8AA1AB4D1FE0014E6E0"},
+            // google frameworks:
+            {"GoogleOpenSource.framework","693BA8BA1AB4D36B0014E6E0","693BA8B71AB4D36B0014E6E0"},
+            {"GooglePlayGames.bundle","693BA8B51AB4D3390014E6E0","693BA8B31AB4D3390014E6E0"},
+            {"GooglePlus.bundle",   "693BA8BB1AB4D36B0014E6E0","693BA8B81AB4D36B0014E6E0"},
+            {"GooglePlus.framework","693BA8BC1AB4D36B0014E6E0","693BA8B91AB4D36B0014E6E0"},
+            {"gpg.framework","693BA8B61AB4D3390014E6E0","693BA8B41AB4D3390014E6E0"},
         };
 
         public struct framework
@@ -36,15 +45,7 @@ namespace Assets.Editor
             }
         }
 
-        private static T[] ToArr<T>(IList<T> list)
-        {
-            var arr = new T[list.Count];
-            for (var i = 0; i < list.Count; ++i)
-            {
-                arr[i] = list[i];
-            }
-            return arr;
-        }
+        
 
         [PostProcessBuild] // <- this is where the magic happens
         public static void OnPostProcessBuild(BuildTarget target, string path)
@@ -53,21 +54,26 @@ namespace Assets.Editor
 #if UNITY_IPHONE
             {
                 // 2: We init our tab and process our project
-                var myFrameworks = new Boo.Lang.List<framework>();
+                var myFrameworks = new List<framework>();
 
                 for (var i = 0; i < LIBS.GetLength(0); ++i)
                 {
                     myFrameworks.Add(new framework(LIBS[i, 0], LIBS[i, 1], LIBS[i, 2]));
                 }
-       
-                string xcodeprojPath = Application.dataPath ;
-                xcodeprojPath = xcodeprojPath.Substring(0, xcodeprojPath.Length - 16) ;
-                //var xcodeInfoPlist =  xcodeprojPath + "MagicArts/MagicArts_iOS/Info.plist";
-                xcodeprojPath = xcodeprojPath + "CircuitRacerBegin/CircuitRacer_iOS/Unity-iPhone.xcodeproj";
-    //          Debug.Log("We found xcodeprojPath to be : "+xcodeprojPath) ;
+// Application.dataPath:/Users/vladimirbodurov/Desktop/Code/GitHub/multiplayer-experiment/CircuitRacerBegin/Assets
+                string appPath = Application.dataPath;
+                var arr = appPath.Split(new[] {'/', '\\'}, StringSplitOptions.None);
+
+                //code:/Users/vladimirbodurov/Desktop/Code/
+                var codeRoot = arr.Take(arr.Length - 4).ToArr().JoinAsString("/")+"/";
+
+                //unityRoot:/Users/vladimirbodurov/Desktop/Code/GitHub/multiplayer-experiment/CircuitRacerBegin/
+                var unityRoot = arr.Take(arr.Length - 1).ToArr().JoinAsString("/")+"/";
+
+                TryCopyGoogleBundles(codeRoot+"GoogleLibs", unityRoot+"CircuitRacer_iOS");
                
                 Debug.Log("OnPostProcessBuild - START") ;
-                UpdateXcodeProject(xcodeprojPath, ToArr(myFrameworks)) ;
+                UpdateXcodeProject(unityRoot+"CircuitRacer_iOS/Unity-iPhone.xcodeproj", myFrameworks) ;
 
                 //UpdateInfoPlist(xcodeInfoPlist);
             }
@@ -76,6 +82,44 @@ namespace Assets.Editor
             Debug.Log("OnPostProcessBuild - Warning: This is not an iOS build") ;
 #endif     
             Debug.Log("OnPostProcessBuild - FINISHED") ;
+        }
+
+        private static void TryCopyGoogleBundles(string sourcePath, string destinationPath)
+        {
+            if (!Directory.Exists(sourcePath))
+            {
+                Debug.LogError("Source directiory does not exist:"+sourcePath);
+                return;
+            }
+            if (!Directory.Exists(destinationPath))
+            {
+                Debug.LogError("Destination directiory does not exist:"+destinationPath);
+                return;
+            }
+
+            CopyAll(sourcePath, destinationPath, 0);
+
+        }
+
+        private static void CopyAll(string sourcePath, string destinationPath, int level)
+        {
+            foreach (var dir in Directory.GetDirectories(sourcePath))
+            {
+                var dirName = Path.GetDirectoryName(dir);
+                var dirToLower = dir.ToLower();
+                var targetDir = Path.Combine(destinationPath, dirName);
+                if (level > 0 || dirToLower.EndsWith(".bundle") || dirToLower.EndsWith(".framework"))
+                {
+                    Directory.CreateDirectory(Path.Combine(destinationPath, dirName));
+                }
+                CopyAll(dir, targetDir, level + 1);
+            }
+            foreach (var file in Directory.GetFiles(sourcePath))
+            {
+                var fileName = Path.GetFileName(file);
+                var targetFile = Path.Combine(destinationPath, fileName);
+                File.Copy(file, targetFile);
+            }
         }
 
         public static void UpdateXcodeProject(string xcodeprojPath, IList<framework> listFrameworks)
