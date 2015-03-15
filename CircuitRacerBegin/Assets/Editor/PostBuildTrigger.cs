@@ -73,7 +73,7 @@ namespace Assets.Editor
 //                TryCopyGoogleBundles(codeRoot+"GoogleLibs", unityRoot+"CircuitRacer_iOS");
                
                 Debug.Log("OnPostProcessBuild - START") ;
-                UpdateXcodeProject(unityRoot+"CircuitRacer_iOS/Unity-iPhone.xcodeproj", myFrameworks) ;
+//                UpdateXcodeProject(unityRoot+"CircuitRacer_iOS/Unity-iPhone.xcodeproj", myFrameworks) ;
 
                 //UpdateInfoPlist(xcodeInfoPlist);
             }
@@ -83,53 +83,6 @@ namespace Assets.Editor
 #endif     
             Debug.Log("OnPostProcessBuild - FINISHED") ;
         }
-
-//        private static void TryCopyGoogleBundles(string sourcePath, string destinationPath)
-//        {
-//            if (!Directory.Exists(sourcePath))
-//            {
-//                Debug.LogError("Source directiory does not exist:"+sourcePath);
-//                return;
-//            }
-//            if (!Directory.Exists(destinationPath))
-//            {
-//                Debug.LogError("Destination directiory does not exist:"+destinationPath);
-//                return;
-//            }
-//
-//            CopyAll(sourcePath, destinationPath, 0);
-//
-//        }
-
-//        private static void CopyAll(string sourcePath, string destinationPath, int level)
-//        {
-//            foreach (var dir in Directory.GetDirectories(sourcePath))
-//            {
-//                var dirName = Path.GetDirectoryName(dir);
-//                var dirToLower = dir.ToLower();
-//                var targetDir = Path.Combine(destinationPath, dirName);
-//                if (level > 0 || dirToLower.EndsWith(".bundle") || dirToLower.EndsWith(".framework"))
-//                {
-//                    var newDir = Path.Combine(destinationPath, dirName);
-//                    if (!Directory.Exists(newDir))
-//                    {
-//Debug.Log("Create dir: "+newDir);
-//                        Directory.CreateDirectory(newDir);
-//                    }
-//                }
-//                CopyAll(dir, targetDir, level + 1);
-//            }
-//            foreach (var file in Directory.GetFiles(sourcePath))
-//            {
-//                var fileName = Path.GetFileName(file);
-//                var targetFile = Path.Combine(destinationPath, fileName);
-//                if (!File.Exists(targetFile))
-//                {
-//Debug.Log("Copy file: "+file);
-//                    File.Copy(file, targetFile);
-//                }
-//            }
-//        }
 
         public static void UpdateXcodeProject(string xcodeprojPath, IList<framework> listFrameworks)
         {
