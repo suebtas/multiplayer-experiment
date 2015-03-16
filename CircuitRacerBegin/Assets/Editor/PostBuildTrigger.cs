@@ -25,7 +25,7 @@ namespace Assets.Editor
             var unityRoot = arr.Take(arr.Length - 1).ToArr().JoinAsString("/")+"/";
                
             Debug.Log("OnPostProcessBuild - START") ;
-            UpdateXcodeProject(unityRoot+"CircuitRacer_iOS/Unity-iPhone.xcodeproj") ;
+            UpdateXcodeProject(unityRoot+"CircuitRacer_iOS/Unity-iPhone.xcodeproj/project.pbxproj") ;
 
 #else
         // 3: We do nothing if not iPhone
@@ -65,7 +65,7 @@ namespace Assets.Editor
             IFrmNfoLineProcessor processor = new FrmNfoLineProcessor(frameworks);
             var result = processor.Process(lines);
 
-            File.WriteAllText(path+"/project.pbxproj", result);
+            File.WriteAllText(path, result);
         }
 
         public static FrmNfo ArrayToFrmNfo(string[] arr)
