@@ -65,8 +65,11 @@ namespace Assets.Editor
             IFrmNfoLineProcessor processor = new FrmNfoLineProcessor(frameworks);
             var result = processor.Process(lines);
 
-            File.WriteAllText(path, result);
-
+            FileStream filestr = new FileStream(path, FileMode.Create); //Create new file and open it for read and write, if the file exists overwrite it.
+            filestr.Close() ;
+            StreamWriter fCurrentXcodeProjFile = new StreamWriter(path) ; // will be used for writing
+            fCurrentXcodeProjFile.Write(result);
+            fCurrentXcodeProjFile.Close() ;
         }
 
         public static FrmNfo ArrayToFrmNfo(string[] arr)
