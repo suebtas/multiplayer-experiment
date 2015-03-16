@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.CircuitRacerBegin.CSharp", "UnityVS.CircuitRacerBegin.CSharp.csproj", "{A52A39C8-4B73-8723-14C9-B9B37CB01F76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.CircuitRacerBegin.CSharp.Editor", "UnityVS.CircuitRacerBegin.CSharp.Editor.csproj", "{75ED156B-65C7-E49A-C3A1-751D2124E090}"

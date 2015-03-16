@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using Assets;
 
 
 namespace Assets.Editor
@@ -61,7 +57,7 @@ namespace Assets.Editor
                 .Select(s => s.Trim())
                 .Where(s => s.Contains(";"))
                 .Select(s => s.Split(';'))
-                .Select(ArrayToFrmNfo)
+                .Select<string[],FrmNfo>(ArrayToFrmNfo)
                 .ToArr();
 
             var lines = File.ReadAllLines(path);
