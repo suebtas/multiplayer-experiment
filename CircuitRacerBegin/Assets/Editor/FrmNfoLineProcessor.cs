@@ -163,7 +163,7 @@ namespace Assets.Editor
                       .Append(" */ = {isa = PBXFileReference; lastKnownFileType = ")
                       .Append(f.FileType)
                       .Append("; name = ")
-                      .Append(f.Name)
+                      .Append(f.Name.Contains('+') ? "\""+f.Name+"\"" : f.Name)
                       .Append("; path = ")
                       .Append(f.Path)
                       .Append("; sourceTree = ")
