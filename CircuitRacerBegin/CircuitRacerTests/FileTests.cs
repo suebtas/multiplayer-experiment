@@ -1,46 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.Callbacks;
 using Assets;
+using Assets.Editor;
 
-
-namespace Assets.Editor
+namespace CircuitRacerTests
 {
-    public static class PostBuildTrigger
+    [TestFixture]
+    public class FileTests
     {
-        [PostProcessBuild] // <- this is where the magic happens
-        public static void OnPostProcessBuild(BuildTarget target, string path)
+        [Test]
+        public void CanTransformFile()
         {
-            // 1: Check this is an iOS build before running
-#if UNITY_IPHONE
-            string appPath = Application.dataPath;
-            var arr = appPath.Split(new[] {'/', '\\'}, StringSplitOptions.None);
+            var lines = File.ReadAllLines("../../Files/Proj.txt");
 
-            //code:/Users/vladimirbodurov/Desktop/Code/
-//          var codeRoot = arr.Take(arr.Length - 4).ToArr().JoinAsString("/")+"/";
-
-            //unityRoot:/Users/vladimirbodurov/Desktop/Code/GitHub/multiplayer-experiment/CircuitRacerBegin/
-            var unityRoot = arr.Take(arr.Length - 1).ToArr().JoinAsString("/")+"/";
-               
-            Debug.Log("OnPostProcessBuild - START") ;
-            UpdateXcodeProject(unityRoot+"CircuitRacer_iOS/Unity-iPhone.xcodeproj") ;
-
-#else
-        // 3: We do nothing if not iPhone
-            Debug.Log("OnPostProcessBuild - Warning: This is not an iOS build") ;
-#endif     
-            Debug.Log("OnPostProcessBuild - FINISHED") ;
-        }
-
-        private static void UpdateXcodeProject(string path)
-        {
-                        var data = @"
+            var data = @"
 69AC98D51AB530AB006C7BE9;AddressBook.framework;Frameworks;69AC98CD1AB530AB006C7BE9;System/Library/Frameworks/AddressBook.framework;SDKROOT;PBXBuildFile|PBXFileReference|PBXFrameworksBuildPhase|PBXGroupFrameworks;wrapper.framework
 69AC98D61AB530AB006C7BE9;AssetsLibrary.framework;Frameworks;69AC98CE1AB530AB006C7BE9;System/Library/Frameworks/AssetsLibrary.framework;SDKROOT;PBXBuildFile|PBXFileReference|PBXFrameworksBuildPhase|PBXGroupFrameworks;wrapper.framework
 69AC98D71AB530AB006C7BE9;CoreData.framework;Frameworks;69AC98CF1AB530AB006C7BE9;System/Library/Frameworks/CoreData.framework;SDKROOT;PBXBuildFile|PBXFileReference|PBXFrameworksBuildPhase|PBXGroupFrameworks;wrapper.framework
@@ -61,30 +39,16 @@ namespace Assets.Editor
                 .Select(s => s.Trim())
                 .Where(s => s.Contains(";"))
                 .Select(s => s.Split(';'))
-                .Select(ArrayToFrmNfo)
+                .Select(PostBuildTrigger.ArrayToFrmNfo)
                 .ToArr();
 
-            var lines = File.ReadAllLines(path);
 
             IFrmNfoLineProcessor processor = new FrmNfoLineProcessor(frameworks);
             var result = processor.Process(lines);
 
-            File.WriteAllText(path, result);
-
+            File.WriteAllText("../../Files/ProjTransformed.txt", result);
         }
 
-        public static FrmNfo ArrayToFrmNfo(string[] arr)
-        {
-            return new FrmNfo
-                   {
-                       ID = arr[0], Name = arr[1], In = arr[2],
-                       FileID = arr[3], Path = arr[4], Src = arr[5],
-                       Section = arr[6]
-                           .Split('|')
-                           .Select(s => (FrmSection)Enum.Parse(typeof(FrmSection), s.Trim()))
-                           .Aggregate(FrmSection.None, (o,n) => o | n),
-                       FileType = arr[7]
-                   };
-        }
+
     }
 }

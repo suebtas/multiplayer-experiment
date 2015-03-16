@@ -77,6 +77,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\FrmNfoLineProcessor.cs" />
     <Compile Include="Assets\Editor\PostBuildTrigger.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSDocsUI.cs" />
