@@ -29,6 +29,16 @@ public class MainMenuScript : MonoBehaviour {
                 }
 			}
 		}
+
+        //if (MultiplayerController.Instance.IsAuthenticated()) {
+            if (GUI.Button(new Rect(Screen.width  - (buttonWidth * 0.75f),
+                                    Screen.height - (buttonHeight * 0.75f),
+                                    buttonWidth * 0.75f,
+                                    buttonHeight * 0.75f), signOutButton)) {
+                if (MultiplayerController.Instance.IsAuthenticated())
+                    MultiplayerController.Instance.SignOut();
+            }
+        //}
 	}
     
     void Start() {
