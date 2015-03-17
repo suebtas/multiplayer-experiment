@@ -164,6 +164,7 @@
     <Compile Include="Assets\Scripts\CarController.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GuiController.cs" />
+    <Compile Include="Assets\Scripts\MultiplayerController.cs" />
     <Compile Include="Assets\Scripts\RetainedUserPicksScript.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,8 @@ public class MainMenuScript : MonoBehaviour {
 	public Texture2D[] buttonTextures;
     private float buttonWidth;
     private float buttonHeight;	
+
+    public Texture2D signOutButton;
 	
 	void OnGUI() {
 		for (int i = 0; i < 2; i++) {
@@ -22,7 +24,8 @@ public class MainMenuScript : MonoBehaviour {
 					Application.LoadLevel("PickCarMenu");
 				} else if (i == 1) {
 					RetainedUserPicksScript.Instance.multiplayerGame = true;
-                    Debug.Log("We would normally load a multiplayer game here");
+                    //Debug.Log("We would normally load a multiplayer game here");
+                    MultiplayerController.Instance.SignInAndStartMPGame();
                 }
 			}
 		}
@@ -35,5 +38,7 @@ public class MainMenuScript : MonoBehaviour {
         buttonHeight = 55.0f * Screen.width / 660.0f;
         
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+        MultiplayerController.Instance.TrySilentSignIn();
     }       
 }
