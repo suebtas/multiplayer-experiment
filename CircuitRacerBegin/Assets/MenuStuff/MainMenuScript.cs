@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuScript : MonoBehaviour {
+public class MainMenuScript : MonoBehaviour, MPLobbyListener {
 
 	
 	public Texture2D[] buttonTextures;
@@ -9,26 +9,47 @@ public class MainMenuScript : MonoBehaviour {
     private float buttonHeight;	
 
     public Texture2D signOutButton;
-	
-	void OnGUI() {
-		for (int i = 0; i < 2; i++) {
-			if (GUI.Button (new Rect ((float)Screen.width * 0.5f - (buttonWidth / 2),
-			                          (float)Screen.height * (0.6f + (i * 0.2f)) - (buttonHeight / 2),
-			                          buttonWidth,
-			                          buttonHeight), buttonTextures[i])) {
-				Debug.Log("Mode " + i + " was clicked!");
 
-				if (i == 0) {
-					// Single player mode!
-					RetainedUserPicksScript.Instance.multiplayerGame = false;
-					Application.LoadLevel("PickCarMenu");
-				} else if (i == 1) {
-					RetainedUserPicksScript.Instance.multiplayerGame = true;
-                    //Debug.Log("We would normally load a multiplayer game here");
-                    MultiplayerController.Instance.SignInAndStartMPGame();
+    public GUISkin guiSkin;
+
+    private bool _showLobbyDialog;
+    private string _lobbyMessage;
+
+    private void OnGUI()
+    {
+        if (_showLobbyDialog) 
+        {
+            GUI.skin = guiSkin;
+            GUI.Box(new Rect(Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f), _lobbyMessage);
+        }
+        else 
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (GUI.Button(new Rect((float) Screen.width*0.5f - (buttonWidth/2),
+                    (float) Screen.height*(0.6f + (i*0.2f)) - (buttonHeight/2),
+                    buttonWidth,
+                    buttonHeight), buttonTextures[i]))
+                {
+                    Debug.Log("Mode " + i + " was clicked!");
+
+                    if (i == 0)
+                    {
+                        // Single player mode!
+                        RetainedUserPicksScript.Instance.multiplayerGame = false;
+                        Application.LoadLevel("PickCarMenu");
+                    }
+                    else if (i == 1)
+                    {
+                        RetainedUserPicksScript.Instance.multiplayerGame = true;
+                        _lobbyMessage = "Starting a multi-player game...";
+                        _showLobbyDialog = true;
+                        MultiplayerController.Instance.lobbyListener = this;
+                        MultiplayerController.Instance.SignInAndStartMPGame();
+                    }
                 }
-			}
-		}
+            }
+        }
 
         if (MultiplayerController.Instance.IsAuthenticated()) {
             if (GUI.Button(new Rect(Screen.width  - (buttonWidth * 0.75f),
@@ -39,6 +60,7 @@ public class MainMenuScript : MonoBehaviour {
                     MultiplayerController.Instance.SignOut();
             }
         }
+
 	}
     
     void Start() {
@@ -51,4 +73,12 @@ public class MainMenuScript : MonoBehaviour {
 
         MultiplayerController.Instance.TrySilentSignIn();
     }       
+
+    public void SetLobbyStatusMessage(string message) {
+        _lobbyMessage = message;
+    }
+    public void HideLobby() {
+        _lobbyMessage = "";
+        _showLobbyDialog = false;
+    }
 }

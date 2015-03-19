@@ -150,10 +150,12 @@
      <Compile Include="Assets\MenuStuff\MainMenuScript.cs" />
      <Compile Include="Assets\MenuStuff\PickCarScript.cs" />
      <Compile Include="Assets\MenuStuff\PickDiffScript.cs" />
+     <Compile Include="Assets\OpponentCarController.cs" />
      <Compile Include="Assets\Scripts\AnalogControl.cs" />
      <Compile Include="Assets\Scripts\CarController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GuiController.cs" />
+     <Compile Include="Assets\Scripts\MPInterfaces.cs" />
      <Compile Include="Assets\Scripts\MultiplayerController.cs" />
      <Compile Include="Assets\Scripts\RetainedUserPicksScript.cs" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\maps_attrs.xml" />

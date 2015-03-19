@@ -95,6 +95,9 @@ public class AnalogControl : MonoBehaviour {
 			}
 			_direction = new Vector2(xVal, yVal);
 			_direction = Vector2.ClampMagnitude(_direction, 1.0f);
-		}
+		} 
+		
+		
+
 	}
 }
