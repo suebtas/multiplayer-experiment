@@ -17,19 +17,12 @@
 using System;
 
 namespace GooglePlayGames {
-    public class PluginVersion {
-        
-        // older versions, used when upgrading to other versions
-        public const string VersionKeyCPP = "00911";
-        public const string VersionKeyU5 = "00915";
-        
-        public const int VersionInt = 0x0915;
-        public const string VersionString = "0.9.15";
-        public const string VersionKey = VersionKeyU5;
+public class PluginVersion {
+    public const int VersionInt = 0x0911;
+    public const string VersionString = "0.9.11";
 
-        // only needed to upgrade to 00915
-        public const int MinGmsCoreVersionCode = 0;
-        
-    }
+    // minimum version of the Google Play Services library project
+    public const long MinGmsCoreVersionCode = 6111000;
+}
 }
 

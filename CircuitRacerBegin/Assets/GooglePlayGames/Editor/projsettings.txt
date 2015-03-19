@@ -1,6 +1,0 @@
-lastUpgrade=00915
-ios.ClientId=878021861794-mpg5butlkb3kl8acd1g7leaclbrurf4h.apps.googleusercontent.com
-ios.BundleId=com.youvisio.CircuitRacerUnity
-ios.SetupDone=true
-proj.AppId=878021861794
-android.SetupDone=true

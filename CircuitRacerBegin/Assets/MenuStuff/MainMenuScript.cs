@@ -3,66 +3,61 @@ using System.Collections;
 
 public class MainMenuScript : MonoBehaviour, MPLobbyListener {
 
-	
+	public Texture2D signOutButton;
 	public Texture2D[] buttonTextures;
+	public GUISkin guiSkin;
+
+	private bool _showLobbyDialog;
+	private string _lobbyMessage;
     private float buttonWidth;
     private float buttonHeight;	
 
-    public Texture2D signOutButton;
+	public void SetLobbyStatusMessage(string message) {
+		_lobbyMessage = message;
+	}
 
-    public GUISkin guiSkin;
+	void OnGUI() {
+		if (!_showLobbyDialog) {
+			for (int i = 0; i < 2; i++) {
+				if (GUI.Button (new Rect ((float)Screen.width * 0.5f - (buttonWidth / 2),
+				                          (float)Screen.height * (0.6f + (i * 0.2f)) - (buttonHeight / 2),
+				                          buttonWidth,
+				                          buttonHeight), buttonTextures[i])) {
+					Debug.Log("Mode " + i + " was clicked!");
 
-    private bool _showLobbyDialog;
-    private string _lobbyMessage;
-
-    private void OnGUI()
-    {
-        if (_showLobbyDialog) 
-        {
-            GUI.skin = guiSkin;
-            GUI.Box(new Rect(Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f), _lobbyMessage);
-        }
-        else 
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                if (GUI.Button(new Rect((float) Screen.width*0.5f - (buttonWidth/2),
-                    (float) Screen.height*(0.6f + (i*0.2f)) - (buttonHeight/2),
-                    buttonWidth,
-                    buttonHeight), buttonTextures[i]))
-                {
-                    Debug.Log("Mode " + i + " was clicked!");
-
-                    if (i == 0)
-                    {
-                        // Single player mode!
-                        RetainedUserPicksScript.Instance.multiplayerGame = false;
-                        Application.LoadLevel("PickCarMenu");
-                    }
-                    else if (i == 1)
-                    {
-                        RetainedUserPicksScript.Instance.multiplayerGame = true;
-                        _lobbyMessage = "Starting a multi-player game...";
-                        _showLobbyDialog = true;
-                        MultiplayerController.Instance.lobbyListener = this;
-                        MultiplayerController.Instance.SignInAndStartMPGame();
-                    }
-                }
-            }
-        }
-
-        if (MultiplayerController.Instance.IsAuthenticated()) {
-            if (GUI.Button(new Rect(Screen.width  - (buttonWidth * 0.75f),
-                                    Screen.height - (buttonHeight * 0.75f),
-                                    buttonWidth * 0.75f,
-                                    buttonHeight * 0.75f), signOutButton)) {
-                //if (MultiplayerController.Instance.IsAuthenticated())
-                    MultiplayerController.Instance.SignOut();
-            }
-        }
-
+					if (i == 0) {
+						// Single player mode!
+						RetainedUserPicksScript.Instance.multiplayerGame = false;
+						Application.LoadLevel("PickCarMenu");
+					} else if (i == 1) {
+						RetainedUserPicksScript.Instance.multiplayerGame = true;
+						_lobbyMessage = "Starting a multi-player game...";
+						_showLobbyDialog = true;
+						MultiplayerController.Instance.lobbyListener = this;
+						MultiplayerController.Instance.SignInAndStartMPGame();
+	                }
+				}
+			}
+		}
+		if (MultiplayerController.Instance.IsAuthenticated()) {
+			if (GUI.Button(new Rect(Screen.width  - (buttonWidth * 0.75f),
+			                        Screen.height - (buttonHeight * 0.75f),
+			                        buttonWidth * 0.75f,
+			                        buttonHeight * 0.75f), signOutButton)) {
+				MultiplayerController.Instance.SignOut();
+			}
+		}
+		if (_showLobbyDialog) {
+			GUI.skin = guiSkin;
+			GUI.Box(new Rect(Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f), _lobbyMessage);
+		}
 	}
     
+	public void HideLobby() {
+		_lobbyMessage = "";
+		_showLobbyDialog = false;
+	}
+
     void Start() {
         
         // I know that 301x55 looks good on a 660-pixel wide screen, so we can extrapolate from there
@@ -70,15 +65,6 @@ public class MainMenuScript : MonoBehaviour, MPLobbyListener {
         buttonHeight = 55.0f * Screen.width / 660.0f;
         
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-        MultiplayerController.Instance.TrySilentSignIn();
+		MultiplayerController.Instance.TrySilentSignIn();
     }       
-
-    public void SetLobbyStatusMessage(string message) {
-        _lobbyMessage = message;
-    }
-    public void HideLobby() {
-        _lobbyMessage = "";
-        _showLobbyDialog = false;
-    }
 }

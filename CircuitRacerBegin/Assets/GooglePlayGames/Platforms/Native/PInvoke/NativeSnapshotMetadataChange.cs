@@ -16,7 +16,7 @@
 using GooglePlayGames.OurUtils;
 
 
-#if (UNITY_ANDROID || (UNITY_IPHONE && !NO_GPGS))
+#if (UNITY_ANDROID || UNITY_IPHONE)
 using System;
 using System.Runtime.InteropServices;
 using System.Text;

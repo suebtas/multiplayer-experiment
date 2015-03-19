@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#if (UNITY_ANDROID || (UNITY_IPHONE && !NO_GPGS))
+#if (UNITY_ANDROID || UNITY_IPHONE)
 using System;
 using C = GooglePlayGames.Native.Cwrapper.TurnBasedMultiplayerManager;
 using Types = GooglePlayGames.Native.Cwrapper.Types;

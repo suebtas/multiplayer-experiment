@@ -28,10 +28,12 @@ public class PlayGamesLocalUser : PlayGamesUserProfile, ILocalUser {
     PlayGamesPlatform mPlatform;
 
     private WWW mAvatarUrl;
+    private Texture2D mImage;
 
     internal PlayGamesLocalUser(PlayGamesPlatform plaf) {
         mPlatform = plaf;
         mAvatarUrl = null;
+        mImage = null;
     }
 
     /// <summary>
@@ -144,7 +146,7 @@ public class PlayGamesLocalUser : PlayGamesUserProfile, ILocalUser {
         // the url can be null if the user does not have an
         // avatar configured.
         if (url != null) {
-          if (mAvatarUrl == null || mAvatarUrl.url != url) {
+          if (mAvatarUrl == null) {
               mAvatarUrl = new WWW(url);
           }
           if(mAvatarUrl.isDone) {
@@ -163,7 +165,10 @@ public class PlayGamesLocalUser : PlayGamesUserProfile, ILocalUser {
     /// </returns>
     public new Texture2D image {
         get {
-            return LoadImage();           
+            if (mImage == null) {
+              mImage = LoadImage();
+            }
+            return mImage;
         }
     }
 }

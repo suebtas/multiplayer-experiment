@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 
-#if (UNITY_ANDROID || (UNITY_IPHONE && !NO_GPGS))
+#if (UNITY_ANDROID || UNITY_IPHONE)
 
 using C = GooglePlayGames.Native.Cwrapper.SnapshotManager;
 using Status = GooglePlayGames.Native.Cwrapper.CommonErrorStatus;
