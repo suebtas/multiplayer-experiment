@@ -13,8 +13,8 @@ public static class GameInfo {
     private const string UnescapedApplicationId = "APPID";
     private const string UnescapedIosClientId = "CLIENTID";
 
-    public const string ApplicationId = "409078551020"; // Filled in automatically
-    public const string IosClientId = "409078551020-9jqmpf402klepde56vqpeht1p14u8lmu.apps.googleusercontent.com"; // Filled in automatically
+    public const string ApplicationId = "878021861794"; // Filled in automatically
+    public const string IosClientId = "878021861794-h5b04oiioecn0ji4m4smcafr36ssls61.apps.googleusercontent.com"; // Filled in automatically
 
     public static bool ApplicationIdInitialized() {
         return !ApplicationId.Equals(ToEscapedToken(UnescapedApplicationId));

@@ -1,6 +1,6 @@
 lastUpgrade=00911
-ios.ClientId=409078551020-9jqmpf402klepde56vqpeht1p14u8lmu.apps.googleusercontent.com
-ios.BundleId=com.razeware.CircuitRacerUnity
+ios.ClientId=878021861794-h5b04oiioecn0ji4m4smcafr36ssls61.apps.googleusercontent.com
+ios.BundleId=com.youvisio.CircuitRacerUnity
 ios.SetupDone=true
-proj.AppId=409078551020
+proj.AppId=878021861794
 android.SetupDone=true
