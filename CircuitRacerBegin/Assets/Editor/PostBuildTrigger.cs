@@ -11,7 +11,7 @@ namespace Assets.Editor
     public static class PostBuildTrigger
     {
         [PostProcessBuild] // <- this is where the magic happens
-        /*public static void OnPostProcessBuild(BuildTarget target, string path)
+        public static void OnPostProcessBuild(BuildTarget target, string path)
         {
             // 1: Check this is an iOS build before running
 #if UNITY_IPHONE
@@ -32,7 +32,7 @@ namespace Assets.Editor
             Debug.Log("OnPostProcessBuild - Warning: This is not an iOS build") ;
 #endif     
             Debug.Log("OnPostProcessBuild - FINISHED") ;
-        }*/
+        }
 
         private static void UpdateXcodeProject(string path)
         {
